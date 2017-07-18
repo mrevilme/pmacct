@@ -81,6 +81,13 @@ if USING_THREADPOOL
 libdaemons_la_SOURCES += thread_pool.c thread_pool.h
 endif
 
+if WITH_PROMETHEUS
+libdaemons_la_SOURCES += prometheus_plugin.c prometheus_plugin.h
+libdaemons_la_LIBADD  += @PROMETHEUS_LIBS@
+libdaemons_la_CFLAGS  += @PROMETHEUS_CFLAGS@
+endif
+
+
 if USING_TRAFFIC_BINS
 sbin_PROGRAMS += pmacctd nfacctd sfacctd
 bin_PROGRAMS += pmacct @EXTRABIN@

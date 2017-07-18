@@ -660,6 +660,31 @@ AC_ARG_ENABLE(mongodb,
 )
 dnl finish: mongodb handling
 
+dnl start: prometheus handling
+AC_MSG_CHECKING(whether to enable Prometheus support)
+AC_ARG_ENABLE(prometheus,
+  [  --enable-prometheus              Enable Prometheus support (default: no)],
+  [ case "$enableval" in
+  yes)
+    AC_MSG_RESULT(yes)
+    dnl reasonably old libsqlite3 already support pkg-config
+    PKG_CHECK_MODULES([PROMETHEUS], [prometheus])
+    PLUGINS="${PLUGINS} prometheus"
+    USING_PROMETHEUS="yes"
+    PMACCT_CFLAGS="$PMACCT_CFLAGS $PROMETHEUS_CFLAGS"
+    AC_DEFINE(WITH_PROMETHEUS, 1)
+    ;;
+  no)
+    AC_MSG_RESULT(no)
+    ;;
+  esac ],
+  [
+    AC_MSG_RESULT(no)
+  ]
+)
+dnl finish: prometheus handling
+
+
 dnl start: sqlite3 handling
 AC_MSG_CHECKING(whether to enable SQLite3 support)
 AC_ARG_ENABLE(sqlite3,
@@ -1198,6 +1223,7 @@ AM_CONDITIONAL([WITH_MYSQL], [test x"$USING_MYSQL" = x"yes"])
 AM_CONDITIONAL([WITH_PGSQL], [test x"$USING_PGSQL" = x"yes"])
 AM_CONDITIONAL([WITH_MONGODB], [test x"$USING_MONGODB" = x"yes"])
 AM_CONDITIONAL([WITH_SQLITE3], [test x"$USING_SQLITE3" = x"yes"])
+AM_CONDITIONAL([WITH_PROMETHEUS], [test x"$USING_PROMETHEUS" = x"yes"])
 AM_CONDITIONAL([WITH_RABBITMQ], [test x"$USING_RABBITMQ" = x"yes"])
 AM_CONDITIONAL([WITH_KAFKA], [test x"$USING_KAFKA" = x"yes"])
 AM_CONDITIONAL([USING_SQL], [test x"$USING_SQL" = x"yes"])

@@ -32,6 +32,7 @@
 #define PLUGIN_ID_MONGODB	9
 #define PLUGIN_ID_AMQP		10
 #define PLUGIN_ID_KAFKA		11
+#define PLUGIN_ID_PROMETHEUS		12
 #define PLUGIN_ID_UNKNOWN       -1
 
 /* vars */
@@ -862,6 +863,9 @@ static struct plugin_type_entry plugin_types_list[] = {
 #ifdef WITH_MONGODB
   {PLUGIN_ID_UNKNOWN,	"mongodb",		mongodb_legacy_warning},
   {PLUGIN_ID_MONGODB,  	"mongodb_legacy",	mongodb_plugin},
+#endif
+#ifdef WITH_PROMETHEUS
+  {PLUGIN_ID_PROMETHEUS,  	"prometheus",	prometheus_plugin},
 #endif
 #ifdef WITH_RABBITMQ
   {PLUGIN_ID_AMQP,	"amqp",		amqp_plugin},
